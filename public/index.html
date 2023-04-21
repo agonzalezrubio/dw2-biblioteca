@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca CUC</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <form id="formID">
+      <div class="form">
+        <div class="title">Biblioteca CUC</div>
+        <div class="subtitle">Formulario prestamo de libro</div>
+        <div class="input-container ic1">
+          <input id="nombre" name="nombre" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="nombre" class="placeholder">Nombre</label>
+        </div>
+
+        <div class="input-container ic2">
+          <input id="apellido" name="apellido" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="apellido" class="placeholder">Apellido</label>
+        </div>
+
+        <div class="input-container ic2">
+          <input id="titulo" name="titulo" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="titulo" class="placeholder">Título</label>
+        </div>
+
+        <div class="input-container ic2">
+          <input id="autor" name="autor" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="autor" class="placeholder">Autor</label>
+        </div>
+
+        <div class="input-container ic2">
+          <input id="editorial" name="editorial" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="editorial" class="placeholder">Editorial</label>
+        </div>
+
+        <div class="input-container ic2">
+          <input id="year" name="year" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="year" class="placeholder">Año</label>
+        </div>
+
+
+        <button type="text" class="submit">Enviar</button>
+      </div>
+    </form>
+    <script type="text/javascript">
+      const form = document.getElementById("formID")
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const formProps = Object.fromEntries(formData);
+
+        if (Object.values(formProps).some(el => !el || el == "")) {
+          location.href = './error.html'
+          return
+        }
+
+        fetch('http://localhost:3000/prestar-libro', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formProps),
+          }).then((data) => {
+            const { id } = data;
+
+            download(`./id_123.txt`, `id_123.txt`)
+          }).catch(e => {
+            console.log("Error => ", e);
+          });
+      });
+
+      function download(dataurl, filename) {
+        const link = document.createElement("a");
+        link.href = dataurl;
+        link.download = filename;
+        link.click();
+      }
+    </script>
+</body>
+</html>
