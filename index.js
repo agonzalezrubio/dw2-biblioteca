@@ -7,7 +7,6 @@ app.use(cors());
 const port=3000;
 const path = require('path');
 
-//middleware
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -18,7 +17,7 @@ app.get('/error', (req, res) => {
   });
 
 app.listen(port,()=>{
-  console.log(`app funcionando en puerto: ${port}`);
+  console.log(`Corriendo en puerto: ${port}`);
 })
 
 const publicPath = path.join(__dirname, 'public');
